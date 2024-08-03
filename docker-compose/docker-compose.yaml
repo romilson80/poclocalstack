@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    ports:
+      - "4566:4566"   # Porta principal para acessar os serviços AWS simulados
+      - "4510:4510"   # Porta opcional para o gateway de eventos (se necessário)
+    environment:
+      - SERVICES=sqs,s3,dynamodb
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - localstack_volume:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - localstack_network
+      
+  mysql:
+    container_name: 'meu-mysql'
+    image: 'mysql:latest'
+    environment:
+      - 'MYSQL_ROOT_PASSWORD=root_password'
+      - 'MYSQL_DATABASE=meu-banco'
+      - 'MYSQL_PASSWORD=password'
+      - 'MYSQL_USER=user'
+    ports:
+      - '3306:3306'
+
+volumes:
+  localstack_volume:
+    driver: local
+
+networks:
+  localstack_network:
+    driver: bridge
