@@ -7,12 +7,11 @@ import br.com.banzo.poclocalstack.usecase.service.UsuarioUseCase;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.awspring.cloud.sqs.annotation.SqsListener;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class SqsListerner {
 
 
@@ -22,12 +21,22 @@ public class SqsListerner {
 
     private final UsuarioUseCase usuarioUseCase;
 
+    public SqsListerner(ObjectMapper objectMapper, UsuarioMapper usuarioMapper, UsuarioUseCase usuarioUseCase) {
+        this.objectMapper = objectMapper;
+        this.usuarioMapper = usuarioMapper;
+        this.usuarioUseCase = usuarioUseCase;
+    }
+
 
     @SqsListener(value = "${sqs.queue-name}")
     public void receiverMessage(final String message) throws JsonProcessingException {
-        UsuarioRequest usuarioRequest = objectMapper.readValue(message, UsuarioRequest.class);
-        UsuarioEntity usuario = usuarioMapper.usuarioRequestToUsuario(usuarioRequest);
-        usuarioUseCase.salvarUsuario(usuario);
-        log.info(message);
+        try {
+            UsuarioRequest usuarioRequest = objectMapper.readValue(message, UsuarioRequest.class);
+            final UsuarioEntity usuario = usuarioMapper.usuarioRequestToUsuario(usuarioRequest);
+            usuarioUseCase.salvarUsuario(usuario);
+            log.info(message);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getCause());
+        }
     }
 }
