@@ -23,12 +23,3 @@ Clone o repositório do projeto para sua máquina local:
 git clone https://github.com/romilson80/poclocalstack.git
 ```
 Para executar a infra estrutura da aplicação navegue ate 
-
-###Sequence Diagram
-
-```seq
-Andrew->China: Says Hello 
-Note right of China: China thinks\nabout it 
-China-->Andrew: How are you? 
-Andrew->>China: I am good thanks!
-```
