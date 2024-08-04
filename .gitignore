@@ -3,3 +3,5 @@
 *.iws
 *.iml
 *.ipr
+# Ignorar a pasta target gerada pelo Maven
+target/
