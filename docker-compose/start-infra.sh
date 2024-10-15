@@ -7,7 +7,7 @@ BASE_DIR=$(dirname "$0")
 cd "$BASE_DIR" || exit 1
 
 set -x
-docker-compose up -d
+podman-compose up -d
 
 ./bin/localstack/localstack-init.sh
 

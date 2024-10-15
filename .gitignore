@@ -5,3 +5,4 @@
 *.ipr
 # Ignorar a pasta target gerada pelo Maven
 target/
+.terraform
