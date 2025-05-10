@@ -30,13 +30,13 @@ public class UsuarioController {
         usuarioUseCase.salvarUsuario(usuario);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/{nome}")
+    @GetMapping("/nome/{nome}")
     public ResponseEntity< List<UsuarioEntity>> listarUsuarioPorNome(@PathVariable(value = "nome") String nome){
         List<UsuarioEntity> usuarioResponse = usuarioUseCase.listarUsuarioPorNome(nome);
         return ResponseEntity.ok(usuarioResponse);
     }
 
-    @GetMapping("/{nome}/id_usuario/{id_usuario}")
+    @GetMapping("nome/{nome}/id_usuario/{id_usuario}")
     public ResponseEntity< UsuarioEntity> buscarUsuarioPorNomeEIdUsuario(
             @PathVariable(value = "nome") String nome,
             @PathVariable(value = "id_usuario") String id_usuario){
@@ -44,7 +44,7 @@ public class UsuarioController {
         return usuarioResponse == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(usuarioResponse);
     }
 
-    @PutMapping("/{nome}/id_usuario/{id_usuario}")
+    @PutMapping("nome/{nome}/id_usuario/{id_usuario}")
     public ResponseEntity<Void> atualizarUsuarioPorNomeEIdUsuario(
             @PathVariable(value = "nome") String nome,
             @PathVariable(value = "id_usuario") String id_usuario,
@@ -54,7 +54,7 @@ public class UsuarioController {
         return usuarioAtualizado == null ? ResponseEntity.notFound().build() : ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{nome}/id_usuario/{id_usuario}")
+    @DeleteMapping("nome/{nome}/id_usuario/{id_usuario}")
     public ResponseEntity<Void> deletarUsuarioPorNomeEIdUsuario(
             @PathVariable(value = "nome") String nome,
             @PathVariable(value = "id_usuario") String id_usuario){
